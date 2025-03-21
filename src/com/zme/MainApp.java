@@ -65,11 +65,11 @@ public class MainApp extends JFrame {
         getContentPane().add(destinationBrowsebtn);
         
         JLabel deslbl = new JLabel("Destination:");
-        deslbl.setBounds(10, 91, 78, 14);
+        deslbl.setBounds(10, 91, 79, 14);
         getContentPane().add(deslbl);
         
         JLabel srclbl = new JLabel("Source:");
-        srclbl.setBounds(10, 35, 46, 14);
+        srclbl.setBounds(10, 35, 47, 14);
         getContentPane().add(srclbl);
         
         extractBtn = new JButton("Extract");
