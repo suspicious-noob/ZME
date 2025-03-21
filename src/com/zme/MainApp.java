@@ -65,7 +65,7 @@ public class MainApp extends JFrame {
         getContentPane().add(destinationBrowsebtn);
         
         JLabel deslbl = new JLabel("Destination:");
-        deslbl.setBounds(10, 91, 58, 14);
+        deslbl.setBounds(10, 91, 77, 14);
         getContentPane().add(deslbl);
         
         JLabel srclbl = new JLabel("Source:");
@@ -133,7 +133,7 @@ public class MainApp extends JFrame {
 	private void showDeveloperInfo() {
 	    JDialog aboutDialog = new JDialog(this, "About", true);
 	    aboutDialog.setSize(300, 250); // Increased height to fit the logo
-	    aboutDialog.setLayout(null);
+	    aboutDialog.getContentPane().setLayout(null);
 	    aboutDialog.setLocationRelativeTo(this);
 	    aboutDialog.setResizable(false);
 
@@ -145,12 +145,12 @@ public class MainApp extends JFrame {
         Image img = originalIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         logoLabel.setIcon(new ImageIcon(img));
 	    logoLabel.setBounds(75, 10, 150, 150); // Adjust position & size
-	    aboutDialog.add(logoLabel);
+	    aboutDialog.getContentPane().add(logoLabel);
 
 	    // Developer Info
 	    JLabel infoLabel = new JLabel("<html><center><b>Zomboid Mod Extractor</b><br>Version 1.2.8<br>Developed by: Suspicious Noob</center></html>", SwingConstants.CENTER);
 	    infoLabel.setBounds(20, 130, 260, 60);
-	    aboutDialog.add(infoLabel);
+	    aboutDialog.getContentPane().add(infoLabel);
 
 	   
 
