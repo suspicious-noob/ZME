@@ -1,5 +1,9 @@
 # Zomboid Mod Extractor [ZME] - Mod Management Tool
 
+<p align="center">
+  <img src="https://i.ibb.co/ZzjXnPKf/Cover-Photo.jpg" alt="Zomboid Mod Extractor" width="800">
+</p>
+
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Java](https://img.shields.io/badge/Java-19+-red.svg)
 ![Platform](https://img.shields.io/badge/Platform-Windows-blue)
@@ -18,8 +22,9 @@ ZME is a Java-based GUI application that helps manage mod files efficiently. It 
 ## 📥 Installation
 
 1. **Download the latest release** from [GitHub Releases](https://github.com/suspicious-noob/ZME/releases).  
-2. Run either `ZME.exe` or `ZME.jar` (choose one, or launch both, I don't care).  
-3. Make sure you have **Java 19+** installed or use the bundled JRE.
+2. Run installer and follow instructions or `ZME.jar` (choose one, or launch both, I don't care).  
+    - If you're using the JAR file, make sure you have **Java 19+** JRE/JDK installed.
+3. Run the program using the desktop shortcut
 
 ## 🛠️ Usage
 
