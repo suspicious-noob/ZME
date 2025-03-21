@@ -4,14 +4,23 @@ import javax.swing.*;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.awt.Font;
 import java.awt.Image;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 public class MainApp extends JFrame {
-	private static final long serialVersionUID = 1L; // Fixes the warning
+	
+	private static final long serialVersionUID = 1L;
+    private static final String CURRENT_VERSION = "1.3.0"; // Update this when releasing new versions
+    private static final String VERSION_URL = "https://raw.githubusercontent.com/suspicious-noob/ZME/refs/heads/master/version.txt";
+    private static final String DOWNLOAD_URL = "https://github.com/suspicious-noob/ZME/releases";
+    
 	private JTextField sourceTextField;
 	private JTextField destinationTextField;
 	private JButton destinationBrowsebtn;
@@ -28,11 +37,10 @@ public class MainApp extends JFrame {
 
 	public MainApp() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainApp.class.getResource("/resources/ZME-logo-cropped.png")));
-        setTitle("Zomboid Mod Extractor [v1.2.8]");
+		setTitle("Zomboid Mod Extractor [v" + CURRENT_VERSION + "]");
         setSize(550, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
         setResizable(false);
         getContentPane().setLayout(null);
         
@@ -129,11 +137,72 @@ public class MainApp extends JFrame {
                 showDeveloperInfo();
             }
         });
+        
+        new Thread(this::checkForUpdates).start();
     }
+	
+	private void checkForUpdates() {
+		try {
+	        String latestVersion = getLatestVersion(); // Fetch latest version from server
+
+	        if (latestVersion == null) {
+	            JOptionPane.showMessageDialog(this, "Failed to check for updates!", "Update Check", JOptionPane.ERROR_MESSAGE);
+	            return;
+	        }
+
+	        if (isNewerVersion(CURRENT_VERSION, latestVersion)) { 
+	            SwingUtilities.invokeLater(() -> {
+	                int choice = JOptionPane.showConfirmDialog(this,
+	                        "A new version (v" + latestVersion + ") is available!\nDo you want to download it?",
+	                        "Update Available",
+	                        JOptionPane.YES_NO_OPTION);
+
+	                if (choice == JOptionPane.YES_OPTION) {
+	                    try {
+	                        java.awt.Desktop.getDesktop().browse(new java.net.URI(DOWNLOAD_URL));
+	                    } catch (Exception e) {
+	                        JOptionPane.showMessageDialog(this, "Failed to open download page!", "Error", JOptionPane.ERROR_MESSAGE);
+	                    }
+	                }
+	            });
+	        } else {
+	            // Show "latest version" message when no update is needed
+	            SwingUtilities.invokeLater(() -> 
+	                JOptionPane.showMessageDialog(this, "You have the latest version!", "Update Check", JOptionPane.INFORMATION_MESSAGE)
+	            );
+	        }
+	    } catch (Exception e) {
+	        System.out.println("Failed to check for updates: " + e.getMessage());
+	    }
+	}
+	
+	private String getLatestVersion() throws Exception {
+        URL url = new URL(VERSION_URL);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            return reader.readLine().trim();
+        }
+    }
+	
+	private boolean isNewerVersion(String currentVersion, String latestVersion) {
+	    String[] currentParts = currentVersion.split("\\.");
+	    String[] latestParts = latestVersion.split("\\.");
+
+	    for (int i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
+	        int current = (i < currentParts.length) ? Integer.parseInt(currentParts[i]) : 0;
+	        int latest = (i < latestParts.length) ? Integer.parseInt(latestParts[i]) : 0;
+
+	        if (latest > current) return true;  // Latest version is newer
+	        if (latest < current) return false; // Current version is actually ahead
+	    }
+	    return false; // Versions are the same
+	}
 	
 	private void showDeveloperInfo() {
 	    JDialog aboutDialog = new JDialog(this, "About", true);
-	    aboutDialog.setSize(300, 250); // Increased height to fit the logo
+	    aboutDialog.setSize(300, 300); // Increased height to fit the logo
 	    aboutDialog.getContentPane().setLayout(null);
 	    aboutDialog.setLocationRelativeTo(this);
 	    aboutDialog.setResizable(false);
@@ -149,9 +218,14 @@ public class MainApp extends JFrame {
 	    aboutDialog.getContentPane().add(logoLabel);
 
 	    // Developer Info
-	    JLabel infoLabel = new JLabel("<html><center><b>Zomboid Mod Extractor</b><br>Version 1.2.8<br>Developed by: Suspicious Noob</center></html>", SwingConstants.CENTER);
+	    JLabel infoLabel = new JLabel("<html><center><b>Zomboid Mod Extractor</b><br>Version " + CURRENT_VERSION + "<br>Developed by: Suspicious Noob</center></html>", SwingConstants.CENTER);
 	    infoLabel.setBounds(20, 130, 260, 60);
 	    aboutDialog.getContentPane().add(infoLabel);
+	    
+	    JButton updateButton = new JButton("Check for Updates");
+	    updateButton.setBounds(75, 200, 150, 30); // Position the button
+	    updateButton.addActionListener(e -> checkForUpdates());
+	    aboutDialog.getContentPane().add(updateButton);
 
 	   
 
@@ -390,7 +464,6 @@ public class MainApp extends JFrame {
 	    });
 	}
 	
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MainApp frame = new MainApp();
