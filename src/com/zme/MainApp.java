@@ -65,7 +65,7 @@ public class MainApp extends JFrame {
         getContentPane().add(destinationBrowsebtn);
         
         JLabel deslbl = new JLabel("Destination:");
-        deslbl.setBounds(10, 91, 77, 14);
+        deslbl.setBounds(10, 91, 78, 14);
         getContentPane().add(deslbl);
         
         JLabel srclbl = new JLabel("Source:");
