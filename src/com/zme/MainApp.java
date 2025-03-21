@@ -53,7 +53,8 @@ public class MainApp extends JFrame {
         sourceBrowsebtn.setBounds(422, 59, 102, 23);
         getContentPane().add(sourceBrowsebtn);
         
-        destinationTextField = new JTextField();
+        String defaultPath = System.getProperty("user.home") + "\\Zomboid\\mods";
+        destinationTextField = new JTextField(defaultPath);
         destinationTextField.setEditable(false);
         destinationTextField.setBounds(10, 116, 402, 20);
         getContentPane().add(destinationTextField);
