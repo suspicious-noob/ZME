@@ -18,7 +18,7 @@ public class MainApp extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
     private static final String CURRENT_VERSION = "1.3.0"; // Update this when releasing new versions
-    private static final String VERSION_URL = "https://raw.githubusercontent.com/suspicious-noob/ZME/refs/heads/master/version.txt";
+    private static final String VERSION_URL = "https://raw.githubusercontent.com/suspicious-noob/ZME/refs/heads/java-version/version.txt";
     private static final String DOWNLOAD_URL = "https://github.com/suspicious-noob/ZME/releases";
     
 	private JTextField sourceTextField;
