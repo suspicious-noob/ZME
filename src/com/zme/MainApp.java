@@ -120,6 +120,7 @@ public class MainApp extends JFrame {
         getContentPane().add(scrollPane);
         
         logsTextarea = new JTextArea();
+        logsTextarea.setEditable(false);
         scrollPane.setViewportView(logsTextarea);
         
         lblNewLabel = new JLabel("");
@@ -172,6 +173,9 @@ public class MainApp extends JFrame {
 	            );
 	        }
 	    } catch (Exception e) {
+	    	SwingUtilities.invokeLater(() -> 
+	            JOptionPane.showMessageDialog(this, "Failed to check for updates: " + e.getMessage(), "Update Error", JOptionPane.ERROR_MESSAGE)
+	        );
 	        System.out.println("Failed to check for updates: " + e.getMessage());
 	    }
 	}
